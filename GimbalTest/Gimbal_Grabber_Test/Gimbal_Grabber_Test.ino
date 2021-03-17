@@ -58,7 +58,7 @@ void loop() {
 
 }
 
-const int SERVO_MIN_MS = 1000;
+const int SERVO_MIN_MS = 900;
 const int SERVO_MAX_MS = 2000;
 
 void setGimbalY(int &percent)

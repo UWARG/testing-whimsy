@@ -50,3 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+AutopilotBlinky/.cproject
+AutopilotBlinky/.mxproject
+AutopilotBlinky/.project
+*.xml
+*.prefs

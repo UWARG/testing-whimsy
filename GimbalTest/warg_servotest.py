@@ -3,7 +3,7 @@ import time
 import keyboard
 
 baudRate = 9600
-COMPORT = "COM6"
+COMPORT = "COM3"
 serialCon = serial.Serial(COMPORT, baudRate) #Create connection on serial port
 
 def writeIntToSerial(int):

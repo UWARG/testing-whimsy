@@ -51,6 +51,9 @@ void loop() {
   // put your main code here, to run repeatedly:
   struct imuResult result = readFromIMU();
   time_t timestamp = now();
+  char start = '$';
+  Serial.print(start);
+  Serial.print(" ");
   Serial.print(result.gyroX);
   Serial.print(" ");
   Serial.print(result.gyroY);

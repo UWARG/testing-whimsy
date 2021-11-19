@@ -1,6 +1,5 @@
 #include <Wire.h>
 #include <stdint.h>
-#include <TimeLib.h>
 #define IMU_ADDR 0x68
 #define IMU_INIT 0x6B
 
@@ -50,12 +49,9 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   struct imuResult result = readFromIMU();
-  time_t timestamp = now();
   Serial.print(result.gyroX);
   Serial.print(" ");
   Serial.print(result.gyroY);
   Serial.print(" ");
   Serial.println(result.gyroZ);
-  Serial.println(" ");
-  Serial.println(timestamp);
 }

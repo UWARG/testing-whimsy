@@ -18,7 +18,7 @@ def read_buffer(ser):
 	return string
 
 def read_vectornav(ser):
-	msg = "$VNINS"
+	msg = "$VNRRG"
 	ser.write(msg.encode())
 	buffer = read_buffer(ser)
 	return buffer

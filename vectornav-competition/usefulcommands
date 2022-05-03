@@ -1,0 +1,6 @@
+# to update the systemd unit file
+sudo cp jetsontelemetry.service /etc/systemd/system/jetsontelemetry.service
+sudo systemctl daemon-reload
+sudo systemctl start jetsontelemetry.service
+sudo systemctl stop jetsontelemetry.service
+sudo systemctl enable jetsontelemetry.service

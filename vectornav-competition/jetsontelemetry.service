@@ -1,0 +1,11 @@
+[Unit]
+Description=Jetson Telemtry Service
+
+[Service]
+WorkingDirectory=/home/uwarg-jetson/Desktop/vectornav-bodge
+ExecStart=/usr/bin/python3 /home/uwarg-jetson/Desktop/vectornav-bodge/jetsontelemetry.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -4,3 +4,4 @@ sudo systemctl daemon-reload
 sudo systemctl start jetsontelemetry.service
 sudo systemctl stop jetsontelemetry.service
 sudo systemctl enable jetsontelemetry.service
+for the love of god, make sure to actually sudo su to install pyserial for the root user

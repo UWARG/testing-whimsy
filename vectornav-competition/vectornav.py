@@ -18,12 +18,14 @@ def read_buffer(ser):
     return string
 
 def read_vectornav(ser):
-    msg = "$VNINS"
+    msg = "$VNGPS"
     ser.write(msg.encode())
     buffer = read_buffer(ser)
     return buffer
 
 if __name__ == '__main__':
+    port = input("Enter port: ")
+    baudrate = 115200
     ser = serial.Serial(port, baudrate)
     ser.flushInput()
     print(read_vectornav(ser))

@@ -2,10 +2,10 @@
 Description=Jetson Telemtry Service
 
 [Service]
-WorkingDirectory=/home/uwarg-jetson/Desktop/vectornav-bodge
-ExecStart=/usr/bin/python3 /home/uwarg-jetson/Desktop/vectornav-bodge/jetsontelemetry.py
+WorkingDirectory=/home/uwarg-jetson/Desktop/kitchen-sinks/vectornav-competition
+ExecStart=/usr/bin/python3 /home/uwarg-jetson/Desktop/kitchen-sinks/vectornav-competition/jetsontelemetry.py
 Restart=on-failure
-RestartSec=5
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target

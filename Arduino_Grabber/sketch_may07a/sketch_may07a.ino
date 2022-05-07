@@ -55,7 +55,7 @@ void loop() {
     
     if (DEBUG) {
       Serial.print("Grabber:"); Serial.print(grabber); Serial.print(" ");
-      Serial.print("Crane:");     Serias.print(crane); Serial.print(" ");
+      Serial.print("Crane:");     Serial.print(crane); Serial.print(" ");
     }
   }
 }

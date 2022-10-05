@@ -131,8 +131,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-	//pull down the cs line to init the communication
+
+  //pull down the cs line to init the communication
 	  HAL_GPIO_WritePin(GPIOA, GPIO_port, GPIO_PIN_RESET);
 
 	//send the config to adc and then get the return value
@@ -154,6 +154,8 @@ int main(void)
 	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, pwm_output);
 	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, pwm_output);
 
+
+    /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

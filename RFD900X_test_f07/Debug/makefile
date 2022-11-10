@@ -60,8 +60,8 @@ all: main-build
 main-build: RFD900X_test_f07.elf secondary-outputs
 
 # Tool invocations
-RFD900X_test_f07.elf RFD900X_test_f07.map: $(OBJS) $(USER_OBJS) C:\Users\linyu\STM32CubeIDE\workspace_1.10.1\RFD900X_test_f07\STM32F072RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "RFD900X_test_f07.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\linyu\STM32CubeIDE\workspace_1.10.1\RFD900X_test_f07\STM32F072RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RFD900X_test_f07.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+RFD900X_test_f07.elf RFD900X_test_f07.map: $(OBJS) $(USER_OBJS) C:\Users\linyu\kitchen-sinks\RFD900X_test_f07\STM32F072RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "RFD900X_test_f07.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\linyu\kitchen-sinks\RFD900X_test_f07\STM32F072RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RFD900X_test_f07.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

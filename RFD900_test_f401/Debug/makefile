@@ -60,8 +60,8 @@ all: main-build
 main-build: RFD900_test_f401.elf secondary-outputs
 
 # Tool invocations
-RFD900_test_f401.elf RFD900_test_f401.map: $(OBJS) $(USER_OBJS) C:\Users\linyu\STM32CubeIDE\workspace_1.10.1\RFD900_test_f401\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "RFD900_test_f401.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\linyu\STM32CubeIDE\workspace_1.10.1\RFD900_test_f401\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RFD900_test_f401.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+RFD900_test_f401.elf RFD900_test_f401.map: $(OBJS) $(USER_OBJS) C:\Users\linyu\kitchen-sinks\RFD900_test_f401\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "RFD900_test_f401.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\linyu\kitchen-sinks\RFD900_test_f401\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RFD900_test_f401.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

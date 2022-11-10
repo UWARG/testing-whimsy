@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -39,6 +39,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -49,6 +50,7 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -87,6 +89,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -95,9 +98,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   uint8_t data_recieve[10];
   uint8_t corrupt_percent;
+  
+  char info[] = "In the current 100 value the corrupt rate is: ";
+  char ending[] = " % \n\n";
+  char warning[] = "There is no input\n";
+
   while (1)
   {
-	  HAL_UART_Receive(&huart2, data_recieve, sizeof(data_recieve), 10);
+	  HAL_UART_Receive(&huart1, data_recieve, sizeof(data_recieve), 10);
+	  if(data_recieve[0] == 0) {
+		  HAL_UART_Transmit(&huart2, warning, sizeof(warning), 10);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -105,13 +116,18 @@ int main(void)
 	for(int i = 1; i < 10; i++) {
 		if(data_recieve[i] - data_recieve[i-1] != 1) {
 			corrupt_percent ++;
-		}
+		} else {
+      data_recieve[i] = 0;
+    }
 		if (data_recieve[i] == 100) {
-			printf("In the current 100 value the corrupt rate is %ud", corrupt_percent);
+			HAL_UART_Transmit(&huart2, info, sizeof(info), 10);
+			HAL_UART_Transmit(&huart2, corrupt_percent, 4, 10);//trying to say they is a int value
+			HAL_UART_Transmit(&huart2, ending, sizeof(ending), 10);
 			corrupt_percent = 0;
 		}
 	}
   }
+
   /* USER CODE END 3 */
 }
 
@@ -148,12 +164,48 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK1;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 460800;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
 }
 
 /**

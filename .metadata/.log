@@ -1,0 +1,18 @@
+!SESSION 2022-11-10 00:24:31.886 -----------------------------------------------
+eclipse.buildId=Version 1.10.1
+java.version=11.0.14.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_CA
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-11-10 00:29:09.183
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-11-10 00:29:09.261
+!MESSAGE Log4j initialized with config file C:\Users\linyu\kitchen-sinks\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-11-10 00:29:11.634
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-11-10 00:30:02.346
+!MESSAGE Indexed 'RFD900X_test_f07' (23 sources, 112 headers) in 4.07 sec: 9,494 declarations; 42,828 references; 7 unresolved inclusions; 879 syntax errors; 1,147 unresolved names (2.1%)

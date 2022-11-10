@@ -1,0 +1,7 @@
+00:36:49 **** Incremental Build of configuration Debug for project RFD900X_test_f07 ****
+make -j16 all 
+arm-none-eabi-size   RFD900X_test_f07.elf 
+   text	   data	    bss	    dec	    hex	filename
+   9132	     20	   1836	  10988	   2aec	RFD900X_test_f07.elf
+Finished building: default.size.stdout
+ 

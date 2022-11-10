@@ -96,22 +96,18 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint8_t data_recieve[40];
+  uint8_t data_recieve[10];
   uint8_t corrupt_percent;
   
-  uint8_t info[] = "In the current 100 value the corrupt rate is: ";
+  char info[] = "In the current 100 value the corrupt rate is: ";
   char ending[] = " % \r\n";
   char warning[] = "There is no input\r\n";
 
   while (1)
   {
-	  //based on the reference sheet for the operation figure out that need to send pointer instead
-	  HAL_UART_Transmit(&huart1, &info, sizeof(info), 100);
-	  if (HAL_OK == HAL_UART_Receive(&huart2, &data_recieve, sizeof(data_recieve), 100)){
-		  HAL_UART_Transmit(&huart2, &data_recieve, sizeof(data_recieve), 100);
-	  } else {
-		  HAL_UART_Transmit(&huart2, &warning, sizeof(warning), 100);
-	  }
+	  HAL_UART_Transmit(&huart1, 'b', 1, 100);
+	  HAL_UART_Receive(&huart2, data_recieve[0], 1, 100);
+	  HAL_UART_Transmit(&huart2, data_recieve[0], 1, 100);
 //	  if(data_recieve[5] == 0) {
 //		  HAL_UART_Transmit(&huart2, warning, sizeof(warning), 10);
 //	  }

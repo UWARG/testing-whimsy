@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include<string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,6 +68,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
+	char info[] = "Data is sent";
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -112,6 +113,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  HAL_UART_Transmit(&huart1, test, sizeof(test), 10);// Sending in normal mode
 	  HAL_Delay(1000);
+	  HAL_UART_Transmit(&huart2, info, sizeof(info), 10);
   }
   /* USER CODE END 3 */
 }

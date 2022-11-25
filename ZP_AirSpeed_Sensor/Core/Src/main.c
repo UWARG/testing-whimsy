@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +50,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 /*
  * Some useful comments here
+ * 5 volts
  * output type: 10 - 90%
  * Addr. 0x28H
  */
@@ -120,13 +122,15 @@ int main(void)
 
     // Tell AIRSPEED that we want to read from the airspeed sensor
     buf[0] = DF_COMMAND;
-    ret = HAL_I2C_Master_Transmit(&hi2c1, AIRSPEED_ADDR, buf, 1, HAL_MAX_DELAY);
+
+    ret = HAL_I2C_Master_Transmit(&hi2c1, (uint16_t)AIRSPEED_ADDR, buf, 1, 50);
     if ( ret != HAL_OK ) {
       strcpy((char*)buf, "Error Tx\r\n");
     } else {
 
+      for(int i = 0; i < 5000; i++);
       // Read 4 bytes from the airspeed register
-      ret = HAL_I2C_Master_Receive(&hi2c1, AIRSPEED_ADDR, buf, 4, HAL_MAX_DELAY);
+      ret = HAL_I2C_Master_Receive(&hi2c1, (uint16_t)AIRSPEED_ADDR | 0x01, buf, 4, HAL_MAX_DELAY);
       if ( ret != HAL_OK ) {
         strcpy((char*)buf, "Error Rx\r\n");
       } else {
@@ -141,7 +145,7 @@ int main(void)
     	//call error when either of the those data is at the max or min value
     	  if (dp_raw  == 0x3FFF || dp_raw  == 0 || dt_raw  == 0x7FF || dt_raw == 0)
     	  {
-    		  strcpy((char*)buf, "Error Datax\r\n");
+    		  strcpy((char*)buf, "Error Dx\r\n");
     	  }
 
     	//pressure measurement
@@ -150,7 +154,7 @@ int main(void)
     	  const float PSI_to_Pa = 6894.757f;
 
     	  //calculation can be different depend on the output type(A/B)
-    	  float diff_press_PSI  = -((dp_raw - 0.1f*16383) * (P_max-P_min)/(0.8f*16383) + P_min);
+    	  float diff_press_PSI  = -((dp_raw - 0.1f*16383) * (P_max-P_min)/(0.9f*16383) + P_min);
     	  pressure  = diff_press_PSI * PSI_to_Pa;
 
     	//temperature measurement
@@ -158,7 +162,7 @@ int main(void)
 
     	//airspeed calculation
     	  const float R = 287.5; //some kind of air constant
-    	  float K = temperature - 273.15; //temp in kelvin
+    	  float K = temperature + 273.15; //temp in kelvin
     	  float rho = pressure / (R * K); // air density
     	  airspeed = sqrt((2*pressure) / rho);
 
@@ -242,7 +246,7 @@ static void MX_I2C1_Init(void)
   /* USER CODE END I2C1_Init 1 */
   hi2c1.Instance = I2C1;
   hi2c1.Init.Timing = 0x00000E14;
-  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.OwnAddress1 = 80;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c1.Init.OwnAddress2 = 0;

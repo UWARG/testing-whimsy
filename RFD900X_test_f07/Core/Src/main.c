@@ -51,6 +51,8 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART1_UART_Init(void);
+static char mck_data[50];
+
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -102,16 +104,24 @@ int main(void)
   uint8_t info[] = "In the current 100 value the corrupt rate is: ";
   char ending[] = " % \r\n";
   char warning[] = "There is no input\r\n";
+  uint8_t response[100];
+  int test = 12;
+
+  int receive = 0;
 
   while (1)
   {
 	  //based on the reference sheet for the operation figure out that need to send pointer instead
-	  HAL_UART_Transmit(&huart1, &info, sizeof(info), 100);
-	  if (HAL_OK == HAL_UART_Receive(&huart2, &data_recieve, sizeof(data_recieve), 100)){
-		  HAL_UART_Transmit(&huart2, &data_recieve, sizeof(data_recieve), 100);
-	  } else {
-		  HAL_UART_Transmit(&huart2, &warning, sizeof(warning), 100);
-	  }
+//	  HAL_UART_Transmit(&huart1, info, sizeof(info), 100);
+//	  HAL_Delay(1000);
+	  HAL_UART_Transmit(&huart1, info, sizeof(info), 100);
+	  HAL_UART_Receive(&huart2, response, sizeof(info), 100);
+	  HAL_UART_Transmit(&huart1, mck_data, sizeof(mck_data), 1000);
+	  HAL_Delay(1000);
+//		  HAL_UART_Transmit(&huart2, &data_recieve, sizeof(data_recieve), 100);
+//	  } else {
+		  //HAL_UART_Transmit(&huart2, &warning, sizeof(warning), 100);
+	//  }
 //	  if(data_recieve[5] == 0) {
 //		  HAL_UART_Transmit(&huart2, warning, sizeof(warning), 10);
 //	  }
@@ -195,7 +205,7 @@ static void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 9600;
+  huart1.Init.BaudRate = 14400;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -230,7 +240,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;

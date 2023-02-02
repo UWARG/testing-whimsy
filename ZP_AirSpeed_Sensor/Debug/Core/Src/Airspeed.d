@@ -1,8 +1,4 @@
-Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
- ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal.h \
- ../Core/Inc/stm32l5xx_hal_conf.h \
- ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_rcc.h \
- ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_def.h \
+Core/Src/Airspeed.o: ../Core/Src/Airspeed.cpp ../Core/Inc/Airspeed.hpp \
  ../Drivers/CMSIS/Device/ST/STM32L5xx/Include/stm32l5xx.h \
  ../Drivers/CMSIS/Device/ST/STM32L5xx/Include/stm32l552xx.h \
  ../Drivers/CMSIS/Include/core_cm33.h \
@@ -11,6 +7,10 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Include/mpu_armv8.h \
  ../Drivers/CMSIS/Device/ST/STM32L5xx/Include/system_stm32l5xx.h \
+ ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal.h \
+ ../Core/Inc/stm32l5xx_hal_conf.h \
+ ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_rcc.h \
+ ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_def.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_rcc_ex.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_gpio.h \
@@ -28,13 +28,8 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_pwr.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_pwr_ex.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart.h \
- ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart_ex.h \
- ../Core/Inc/Airspeed.hpp ../Core/Inc/GPS.hpp ../Core/Inc/NMEAparse.h
-../Core/Inc/main.h:
-../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal.h:
-../Core/Inc/stm32l5xx_hal_conf.h:
-../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_rcc.h:
-../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_def.h:
+ ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart_ex.h
+../Core/Inc/Airspeed.hpp:
 ../Drivers/CMSIS/Device/ST/STM32L5xx/Include/stm32l5xx.h:
 ../Drivers/CMSIS/Device/ST/STM32L5xx/Include/stm32l552xx.h:
 ../Drivers/CMSIS/Include/core_cm33.h:
@@ -43,6 +38,10 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../Drivers/CMSIS/Include/mpu_armv8.h:
 ../Drivers/CMSIS/Device/ST/STM32L5xx/Include/system_stm32l5xx.h:
+../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal.h:
+../Core/Inc/stm32l5xx_hal_conf.h:
+../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_rcc.h:
+../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_def.h:
 ../Drivers/STM32L5xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_rcc_ex.h:
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_gpio.h:
@@ -61,6 +60,3 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_pwr_ex.h:
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart.h:
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart_ex.h:
-../Core/Inc/Airspeed.hpp:
-../Core/Inc/GPS.hpp:
-../Core/Inc/NMEAparse.h:

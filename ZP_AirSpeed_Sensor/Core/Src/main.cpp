@@ -6,25 +6,24 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "Airspeed.hpp"
+#include "GPS.hpp"
+#include "NMEAparse.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <string.h>
-#include <stdio.h>
-#include <math.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,7 +33,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -46,29 +44,20 @@
 I2C_HandleTypeDef hi2c1;
 
 UART_HandleTypeDef huart2;
+DMA_HandleTypeDef hdma_usart2_rx;
 
 /* USER CODE BEGIN PV */
-/*
- * Some useful comments here
- * 5 volts
- * output type: 10 - 90%
- * Addr. 0x28H
- */
 
-static const uint8_t AIRSPEED_ADDR = 0x28 << 1; // was 7-bit address
-			 //add 1 (read) 0 (write) to the end
-			 //add 1 bit start condition bit to the start when communicating
-
-static const uint8_t DF_COMMAND = 0x00; //data fetch command
-										//we need DF4 command!!!
-										//but where is it!
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART2_UART_Init(void);
+void airspeed_test();
+void gps_test();
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -85,10 +74,7 @@ static void MX_USART2_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  HAL_StatusTypeDef ret;
-  uint8_t buf[12];
-  int16_t dp_raw, dt_raw; //raw data of pressure and temperature
-  float airspeed, pressure, temperature;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -109,6 +95,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
@@ -119,68 +106,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    // Tell AIRSPEED that we want to read from the airspeed sensor
-    buf[0] = DF_COMMAND;
-
-    ret = HAL_I2C_Master_Transmit(&hi2c1, (uint16_t)AIRSPEED_ADDR, buf, 1, 50);
-    if ( ret != HAL_OK ) {
-      strcpy((char*)buf, "Error Tx\r\n");
-    } else {
-
-      for(int i = 0; i < 5000; i++);
-      // Read 4 bytes from the airspeed register
-      ret = HAL_I2C_Master_Receive(&hi2c1, (uint16_t)AIRSPEED_ADDR | 0x01, buf, 4, HAL_MAX_DELAY);
-      if ( ret != HAL_OK ) {
-        strcpy((char*)buf, "Error Rx\r\n");
-      } else {
-
-        //interpreting raw data
-    	  dp_raw = ((int16_t)buf[0] << 8) + (int16_t)buf[1];
-    	  dp_raw = 0x3FFF & dp_raw;
-
-    	  dt_raw = ((int16_t)buf[2] << 8) + (int16_t)buf[3];
-    	  dt_raw = (0xFFE0 & dt_raw) >> 5;
-
-    	//call error when either of the those data is at the max or min value
-    	  if (dp_raw  == 0x3FFF || dp_raw  == 0 || dt_raw  == 0x7FF || dt_raw == 0)
-    	  {
-    		  strcpy((char*)buf, "Error Dx\r\n");
-    	  }
-
-    	//pressure measurement
-    	  const float P_max = 100; //what is the range?!!
-    	  const float P_min = - P_max;
-    	  const float PSI_to_Pa = 6894.757f;
-
-    	  //calculation can be different depend on the output type(A/B)
-    	  float diff_press_PSI  = -((dp_raw - 0.1f*16383) * (P_max-P_min)/(0.9f*16383) + P_min);
-    	  pressure  = diff_press_PSI * PSI_to_Pa;
-
-    	//temperature measurement
-    	  temperature  = ((200.0f * dt_raw) / 2047) - 50;
-
-    	//airspeed calculation
-    	  const float R = 287.5; //some kind of air constant
-    	  float K = temperature + 273.15; //temp in kelvin
-    	  float rho = pressure / (R * K); // air density
-    	  airspeed = sqrt((2*pressure) / rho);
-
-        sprintf((char*)buf,
-              "%u AS\r\n",
-              ((unsigned int)airspeed));
-      }
-    }
-
-    // Send out buffer (temperature or error message)
-    HAL_UART_Transmit(&huart2, buf, strlen((char*)buf), HAL_MAX_DELAY);
-
-    // Wait
-    HAL_Delay(500);
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  //toggle this on for driver testing
+	  	airspeed_test();
+
+	  gps_test();
+	  HAL_Delay(500);
+
   }
   /* USER CODE END 3 */
 }
@@ -293,7 +228,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 9600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -326,6 +261,23 @@ static void MX_USART2_UART_Init(void)
 }
 
 /**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMAMUX1_CLK_ENABLE();
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -334,12 +286,33 @@ static void MX_GPIO_Init(void)
 {
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
 }
 
 /* USER CODE BEGIN 4 */
+
+void airspeed_test()
+{
+	Airspeed_MS4525DO My_AS_Sensor(&hi2c1);
+	bool isWorking = My_AS_Sensor.init();
+	float temp = My_AS_Sensor.get_temperature();
+	float pres = My_AS_Sensor.get_pressure();
+	float as = My_AS_Sensor.get_airspeed( );
+
+}
+
+void gps_test()
+{
+	NEO_GPS My_GPS(&huart2);
+	LOCATION loc;
+	bool isWorking = My_GPS.refreshGPS();
+	loc = My_GPS.get_location();
+	int numofsat = My_GPS.get_number_of_sat();
+}
 
 /* USER CODE END 4 */
 

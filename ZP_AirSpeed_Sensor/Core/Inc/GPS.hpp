@@ -11,10 +11,12 @@
 #include <NMEAparse.h>
 #include <stm32l5xx.h>
 
+#define RAW_DATA_LENGTH 1000
+
 class NEO_GPS
 {
 	private:
-	uint8_t rx_raw[512];
+	uint8_t rx_raw[RAW_DATA_LENGTH];
 	char GGA[100];
 	char RMC[100];
 	GPSSTRUCT gpsData;

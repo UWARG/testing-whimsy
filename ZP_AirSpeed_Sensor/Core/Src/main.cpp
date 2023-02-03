@@ -100,6 +100,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -111,10 +112,10 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  //toggle this on for driver testing
-	  	airspeed_test();
+	  //airspeed_test();
 
 	  gps_test();
-	  HAL_Delay(500);
+	  //HAL_Delay(500);
 
   }
   /* USER CODE END 3 */
@@ -307,7 +308,7 @@ void airspeed_test()
 
 void gps_test()
 {
-	NEO_GPS My_GPS(&huart2);
+	 NEO_GPS My_GPS(&huart2);
 	LOCATION loc;
 	bool isWorking = My_GPS.refreshGPS();
 	loc = My_GPS.get_location();

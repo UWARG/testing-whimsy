@@ -35,7 +35,7 @@ bool NEO_GPS::get_sentense(const char* string, char* container, int length)
 	int counter = 0;
 	int len = length;
 	bool new_sentense = false;
-	while(counter < 512 && !new_sentense)
+	while(counter < RAW_DATA_LENGTH && !new_sentense)
 	{
 		if(rx_raw[counter] == string[0])
 		{
@@ -49,7 +49,7 @@ bool NEO_GPS::get_sentense(const char* string, char* container, int length)
 			}
 			if(same)
 			{
-				while(rx_raw[counter + i] != '*')
+				while(rx_raw[counter + i] != '*' && counter + i < RAW_DATA_LENGTH)
 				{
 					container[i - len] = rx_raw[counter + i];
 					i++;
@@ -68,18 +68,30 @@ bool NEO_GPS::get_sentense(const char* string, char* container, int length)
 
 bool NEO_GPS::refreshGPS()
 {
-	HAL_UART_Receive_DMA(UART, rx_raw, 512);
+	HAL_UART_Receive_DMA(UART, rx_raw, RAW_DATA_LENGTH);
 	const char GGAs[3] = {'G', 'G', 'A'};
 	const char RMCs[3] = {'R', 'M', 'C'};
 
-	if(!get_sentense(GGAs, GGA, 3))
+	if(get_sentense(GGAs, GGA, 3))
+	{
+		if(decodeGGA(GGA, &gpsData.ggastruct) != 0)
+			return false;
+	}
+	else
+	{
 		return false;
+	}
+
 	if(!get_sentense(RMCs, RMC, 3))
+	{
+		if(decodeRMC(RMC, &gpsData.rmcstruct) != 0)
+			return false;
+	}
+	else
+	{
 		return false;
-	if(decodeGGA(GGA, &gpsData.ggastruct) != 0)
-		return false;
-	if(decodeRMC(RMC, &gpsData.rmcstruct) != 0)
-		return false;
+	}
+
 
 	return true;
 }

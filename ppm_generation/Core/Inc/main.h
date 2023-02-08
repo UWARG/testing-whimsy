@@ -53,20 +53,20 @@ extern "C" {
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 #ifndef PPM_SIG
-	static const float MIN_RESET_PULSE = 3000.0f;
-	static const float MIN_PULSE_WIDTH = 700.0f;
-	static const float MAX_PULSE_WIDTH = 1670.0f;
-	static const float BASE_FREQUENCY = 48000000.0f;
-	static const float SEC_TO_MICROSEC = 1000000.0f;
-	static const float DOWN_INTERVAL = MAX_PULSE_WIDTH - MIN_PULSE_WIDTH;
-	static const uint8_t MAX_CHANNEL = 16;
+	static const float MIN_RESET_PULSE = 3000.0f;//the signal for sync
+	static const float MIN_PULSE_WIDTH = 700.0f;//the min pulse for 1
+	static const float MAX_PULSE_WIDTH = 1670.0f;//the max pulse for a whole period
+	static const float BASE_FREQUENCY = 48000000.0f;//the l552 operating frequency
+	static const float SEC_TO_MICROSEC = 1000000.0f;//the factor to convert time
+	static const float DOWN_INTERVAL = MAX_PULSE_WIDTH - MIN_PULSE_WIDTH;//the variable time from high to low
+	static const uint8_t MAX_CHANNEL = 16;//the max number of channel
 #endif /*PPM_SIG*/
 
 #ifdef UNIT_TEST
 #define HIGH_PERC 1.0f
 #define MID_PERC 0.5f
 #define LOW_PERC 0.0f
-#define test_PSC 14U
+#define test_PSC 14U//the prescalar will be used for the test
 
 /*please configure this*/
 #define channel_used 10//note that the max is 16
@@ -91,7 +91,11 @@ void Error_Handler(void);
  * arg2: psc: the prescalar value used by the current system
  */
 uint32_t microsecs_to_counter(uint32_t time_length, uint16_t psc);
+/*percentage_arr calculate the frame based on the percentage
+ * percentage: the input value
+ */
 uint32_t percentage_arr(float percentage);
+/*calculate the reset pause in this case is a constant 3000*/
 uint32_t reset_sync(void);
 
 /* USER CODE END EFP */

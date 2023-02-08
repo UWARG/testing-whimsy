@@ -110,8 +110,11 @@ int main(void)
   MX_USB_PCD_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
+	/*init all the required feature*/
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
   HAL_TIM_Base_Start_IT(&htim1);
+	
+	/*setup the first ccr value to trigger the generation*/	
   ccr_value = microsecs_to_counter(MIN_PULSE_WIDTH, test_PSC);
   __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, ccr_value);
   /* USER CODE END 2 */
@@ -120,9 +123,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  /*setup the ccr value to defining all the high output*/	
 	  ccr_value = microsecs_to_counter(MIN_PULSE_WIDTH, test_PSC);
 	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, ccr_value);
 	  arr_value = __HAL_TIM_GET_COMPARE(&htim1, TIM_CHANNEL_1);
+	  
+	  /*note: at almost the end of the code there is
+	   HAL_TIM_PeriodElapsedCallback()
+	   this interrupt will be called when the counter got reset to 0 and then the interrupt will dynamic allocate the next arr value*/
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

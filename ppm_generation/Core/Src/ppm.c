@@ -3,20 +3,35 @@
 void __init__(void) {
 	counter = BASE_FREQUENCY / (PSC_VALUE + CORRECTION);//calculate the frequency used
 	counter_to_microsec = counter / SEC_TO_MICROSEC;//calculate the number of micro sec per tick
-	ccr_value = (uint32_t)(counter_to_microsec * PULSE_WIDTH);//ccr_Value is a constant
-	ppm_arr_gen();
 }
 
 uint32_t microsecs_to_counter(uint32_t time_length) {
 	return (uint32_t)(time_length * counter_to_microsec);
 }
 
-
-void ppm_arr_gen(void) {
-	for(int i = 0; i < channel_used; i++) {
-		time_output[i] = microsecs_to_counter((uint32_t)(MIN_PULSE_WIDTH+user_input[i]*DOWN_INTERVAL));
+/*the HIGH output in ppm signal*/
+uint32_t get_ccr(void) {
+	static uint32_t ccr_value;
+	if(ccr_value == 0) {
+		ccr_value = (uint32_t)(counter_to_microsec * PULSE_WIDTH);//ccr_Value is a constant
 	}
-	time_output[channel_used] = calc_reset_pause();
+	return ccr_value;
+}
+
+uint32_t get_arr(void) {
+	static uint8_t index;
+	static volatile uint32_t time_output[channel_reserved];
+	if(time_output[0] == 0 || index == channel_reserved) {
+		for(int i = 0; i < channel_used; i++) {
+			time_output[i] = microsecs_to_counter((uint32_t)(MIN_PULSE_WIDTH+user_input[i]*DOWN_INTERVAL));
+		}
+		time_output[channel_used] = calc_reset_pause();
+		index = 0;
+	}
+
+	int arr_value = time_output[index];
+	index ++;
+	return arr_value;
 }
 
 uint32_t calc_reset_pause(void) {

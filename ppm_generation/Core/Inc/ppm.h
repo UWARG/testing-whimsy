@@ -20,19 +20,14 @@
 	static const uint8_t MAX_CHANNEL = 16;//the max available for the driver
 	static float counter, counter_to_microsec;//the first if the total number of counter will have
 	//the second is the factor to convert the counter to microsec
-	static uint32_t ccr_value; //The first is the capture compare reg indicate the amount of up time
-	//The second is the auto-reload register indicate the number of down_time
 
 	/*please configure this*/
 	#define PSC_VALUE 14U/*prescalar used for the system (to determine the operating frequency*/
-	#define channel_used 10//note that the max is 16 (to indicate the amount of channel used
+	#define channel_used 8//note that the max is 16 (to indicate the amount of channel used
 	#define channel_reserved channel_used + 1//the last one is the reset pulse
 	/*the user input for each channel of input*/
-	static float user_input[channel_used] =
-	{HIGH_PERC,MID_PERC,LOW_PERC,HIGH_PERC,MID_PERC,LOW_PERC,HIGH_PERC,MID_PERC,LOW_PERC,HIGH_PERC};
-	static volatile uint32_t time_output[channel_reserved];
-
-	static int index_count = 0;
+	static const float user_input[channel_used] =
+	{HIGH_PERC,MID_PERC,LOW_PERC,HIGH_PERC,MID_PERC,LOW_PERC,HIGH_PERC,MID_PERC};
 #endif /*PPM_SIG*/
 
 
@@ -41,9 +36,14 @@
  * value need to be configured before hand is:
  * prescalar for clock
  * number of channel needed
- *
+ * all channel percentage input
+ * base frequency
  */
 void __init__(void);
+
+/*get_ccr calculate for fetech the ccr value stored in it
+ */
+uint32_t get_ccr(void);
 
 /*Microsecs_to_counter convert a time interval measured in microsecs to counter for ccr and arr
  * arg1: time_length: how long the interval needs to be
@@ -53,7 +53,7 @@ uint32_t microsecs_to_counter(uint32_t time_length);
 
 /*percentage_arr to perpare an array for arr values
  */
-void ppm_arr_gen(void);
+uint32_t get_arr(void);
 
 uint32_t calc_reset_pause(void);
 

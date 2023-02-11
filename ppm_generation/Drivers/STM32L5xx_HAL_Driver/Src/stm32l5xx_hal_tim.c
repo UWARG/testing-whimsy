@@ -6758,6 +6758,10 @@ void TIM_Base_SetConfig(TIM_TypeDef *TIMx, TIM_Base_InitTypeDef *Structure)
   TIMx->ARR = (uint32_t)Structure->Period ;
 
   /* Set the Prescaler value */
+
+
+
+
   TIMx->PSC = Structure->Prescaler;
 
   if (IS_TIM_REPETITION_COUNTER_INSTANCE(TIMx))

@@ -109,17 +109,18 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   __init__();
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, get_ccr());
+  uint32_t arr_val = get_arr();
+  __HAL_TIM_SET_AUTORELOAD(&htim1, arr_val);
   HAL_TIM_Base_Start_IT(&htim1);
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, ccr_value);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  ppm_arr_gen();
-	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, ccr_value);
+	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, get_ccr());
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -562,15 +563,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	ppm_arr_gen();
-  // Check which version of the timer triggered this callback and toggle LED
-	__HAL_TIM_SET_AUTORELOAD(&htim1, time_output[index_count]);
-	if(index_count == channel_used){
-			index_count = 0;
-			ppm_arr_gen();
-	} else {
-		index_count++;
-	}
+	uint32_t arr_hold = get_arr();
+	__HAL_TIM_SET_AUTORELOAD(&htim1, arr_hold);
 }
 /* USER CODE END 4 */
 

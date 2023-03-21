@@ -81,7 +81,7 @@ trackingAntenna *trackingAntenna ::instance_ptr = new trackingAntenna();
 
 int main()
 {
-  double lat_1 = 54.9967051; //just for testing
+  double lat_1 = 54.9967051; //just for testing - the values currently returned by the program are 305.916116,0.038041. the real values are 305.885743,0.0053246
   double lat_2 = 55.2051573;
   double long_1 = -61.415482;
   double long_2 = -60.9080316;

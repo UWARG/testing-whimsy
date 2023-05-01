@@ -5,6 +5,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/main.c \
 ../Core/Src/stm32l5xx_hal_msp.c \
 ../Core/Src/stm32l5xx_it.c \
 ../Core/Src/syscalls.c \
@@ -18,6 +19,7 @@ CPP_SRCS += \
 ../Core/Src/main.cpp 
 
 C_DEPS += \
+./Core/Src/main.d \
 ./Core/Src/stm32l5xx_hal_msp.d \
 ./Core/Src/stm32l5xx_it.d \
 ./Core/Src/syscalls.d \

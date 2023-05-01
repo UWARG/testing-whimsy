@@ -10,13 +10,15 @@
 
 #include <NMEAparse.h>
 #include <stm32l5xx.h>
+#include "main.h"
+
+
 
 #define RAW_DATA_LENGTH 1000
 
 class NEO_GPS
 {
 	private:
-	uint8_t rx_raw[RAW_DATA_LENGTH];
 	char GGA[100];
 	char RMC[100];
 	GPSSTRUCT gpsData;
@@ -31,6 +33,8 @@ class NEO_GPS
 
 	public:
 
+	uint8_t rx_raw[RAW_DATA_LENGTH];
+
     NEO_GPS(UART_HandleTypeDef* dev);
     ~NEO_GPS();
 
@@ -38,13 +42,13 @@ class NEO_GPS
 
 	bool refreshGPS();
 
+	UART_HandleTypeDef* get_uart_handler();
 	LOCATION get_location();
 	DATE get_date();
 	TIME get_time();
 	float get_speed();
 	float get_course();
 	int get_number_of_sat();
-
 };
 
 

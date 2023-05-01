@@ -19,6 +19,11 @@
 NEO_GPS::NEO_GPS(UART_HandleTypeDef* dev)
 {
 	UART = dev;
+	HAL_UART_Receive_DMA(UART, rx_raw, RAW_DATA_LENGTH);
+}
+
+UART_HandleTypeDef* NEO_GPS::get_uart_handler() {
+	return UART;
 }
 
 NEO_GPS::~NEO_GPS()
@@ -68,7 +73,7 @@ bool NEO_GPS::get_sentense(const char* string, char* container, int length)
 
 bool NEO_GPS::refreshGPS()
 {
-	HAL_UART_Receive_DMA(UART, rx_raw, RAW_DATA_LENGTH);
+
 	const char GGAs[3] = {'G', 'G', 'A'};
 	const char RMCs[3] = {'R', 'M', 'C'};
 
@@ -76,13 +81,14 @@ bool NEO_GPS::refreshGPS()
 	{
 		if(decodeGGA(GGA, &gpsData.ggastruct) != 0)
 			return false;
+
 	}
 	else
 	{
 		return false;
 	}
 
-	if(!get_sentense(RMCs, RMC, 3))
+	if(get_sentense(RMCs, RMC, 3))
 	{
 		if(decodeRMC(RMC, &gpsData.rmcstruct) != 0)
 			return false;
@@ -121,6 +127,8 @@ int NEO_GPS::get_number_of_sat()
 {
 	return gpsData.ggastruct.numofsat;
 }
+
+
 
 
 

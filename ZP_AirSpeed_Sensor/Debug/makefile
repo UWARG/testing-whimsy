@@ -75,8 +75,8 @@ all: main-build
 main-build: ZP_AirSpeed_Sensor.elf secondary-outputs
 
 # Tool invocations
-ZP_AirSpeed_Sensor.elf ZP_AirSpeed_Sensor.map: $(OBJS) $(USER_OBJS) C:\Codes_Programming\ZP_Assertion\ZP_AirSpeed_Sensor\STM32L552ZETXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "ZP_AirSpeed_Sensor.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Codes_Programming\ZP_Assertion\ZP_AirSpeed_Sensor\STM32L552ZETXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="ZP_AirSpeed_Sensor.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+ZP_AirSpeed_Sensor.elf ZP_AirSpeed_Sensor.map: $(OBJS) $(USER_OBJS) C:\WARG\kitchen-sinks\ZP_AirSpeed_Sensor\STM32L552ZETXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "ZP_AirSpeed_Sensor.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\WARG\kitchen-sinks\ZP_AirSpeed_Sensor\STM32L552ZETXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="ZP_AirSpeed_Sensor.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

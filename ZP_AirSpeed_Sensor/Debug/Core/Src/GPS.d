@@ -29,7 +29,8 @@ Core/Src/GPS.o: ../Core/Src/GPS.cpp ../Core/Inc/GPS.hpp \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_pwr.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_pwr_ex.h \
  ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart.h \
- ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart_ex.h
+ ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart_ex.h \
+ ../Core/Inc/main.h
 ../Core/Inc/GPS.hpp:
 ../Core/Inc/NMEAparse.h:
 ../Drivers/CMSIS/Device/ST/STM32L5xx/Include/stm32l5xx.h:
@@ -62,3 +63,4 @@ Core/Src/GPS.o: ../Core/Src/GPS.cpp ../Core/Inc/GPS.hpp \
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_pwr_ex.h:
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart.h:
 ../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_hal_uart_ex.h:
+../Core/Inc/main.h:

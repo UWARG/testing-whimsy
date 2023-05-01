@@ -18,9 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "Airspeed.hpp"
-#include "GPS.hpp"
-#include "NMEAparse.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -58,16 +56,12 @@ static void MX_DMA_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-void airspeed_test();
-void gps_test();
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t RX_raw[1000];
-NEO_GPS My_GPS(&huart2);
 
 /* USER CODE END 0 */
 
@@ -102,12 +96,10 @@ int main(void)
   MX_DMA_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
-
   /* USER CODE END 2 */
-  //HAL_StatusTypeDef ret = HAL_UART_Receive_DMA(&huart2, RX_raw, 1000);
-  HAL_StatusTypeDef ret = HAL_UART_Receive_DMA(My_GPS.get_uart_handler(), My_GPS.rx_raw, RAW_DATA_LENGTH);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -116,13 +108,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  //MX_DMA_Init();
-	  //MX_USART2_UART_Init();
-	  //toggle this on for driver testing
-	  //airspeed_test();
-	  gps_test();
-
-
   }
   /* USER CODE END 3 */
 }
@@ -267,19 +252,23 @@ static void MX_USART2_UART_Init(void)
 
 }
 
-
+/**
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_USART3_UART_Init(void)
 {
 
-  /* USER CODE BEGIN USART2_Init 0 */
+  /* USER CODE BEGIN USART3_Init 0 */
 
-  /* USER CODE END USART2_Init 0 */
+  /* USER CODE END USART3_Init 0 */
 
-  /* USER CODE BEGIN USART2_Init 1 */
+  /* USER CODE BEGIN USART3_Init 1 */
 
-  /* USER CODE END USART2_Init 1 */
+  /* USER CODE END USART3_Init 1 */
   huart3.Instance = USART3;
-  huart3.Init.BaudRate = 9600;
+  huart3.Init.BaudRate = 115200;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
   huart3.Init.StopBits = UART_STOPBITS_1;
   huart3.Init.Parity = UART_PARITY_NONE;
@@ -305,11 +294,12 @@ static void MX_USART3_UART_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USARTEE_Init 2 */
+  /* USER CODE BEGIN USART3_Init 2 */
 
-  /* USER CODE END USART2_Init 2 */
+  /* USER CODE END USART3_Init 2 */
 
 }
+
 /**
   * Enable DMA controller clock
   */
@@ -344,35 +334,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void airspeed_test()
-{
-	Airspeed_MS4525DO My_AS_Sensor(&hi2c1);
-	bool isWorking = My_AS_Sensor.init();
-	float temp = My_AS_Sensor.get_temperature();
-	float pres = My_AS_Sensor.get_pressure();
-	float as = My_AS_Sensor.get_airspeed( );
-
-}
-
-void gps_test()
-{
-	LOCATION loc;
- 	loc = My_GPS.get_location();
- 	TIME time = My_GPS.get_time();
-	int numofsat = My_GPS.get_number_of_sat();
-	/*debugging feature*/
-//	char *output = (char*)&loc.NS;
-	unsigned char a = (uint8_t)time.sec;
-	HAL_UART_Transmit(&huart2,  &a, sizeof(a), 100);
-}
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	bool retur = My_GPS.refreshGPS();
-	HAL_StatusTypeDef ret = HAL_UART_Receive_DMA(My_GPS.get_uart_handler(), My_GPS.rx_raw, RAW_DATA_LENGTH);
-}
-
 
 /* USER CODE END 4 */
 

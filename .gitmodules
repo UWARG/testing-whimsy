@@ -1,0 +1,3 @@
+[submodule "MAVDisplay"]
+	path = MAVDisplay
+	url = https://github.com/Aidan-B/MAVDisplay

@@ -1,5 +1,8 @@
 # Serial Logger, heavily inspired by boseji's serial logger
 
+# usage:
+# python serial_logger.py
+
 import serial
 
 import logging, time

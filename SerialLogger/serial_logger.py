@@ -56,7 +56,8 @@ def main (qSignal):
     # begin
     log.info("Program Started")
     ser = None
-        try ser = serial.Serial(PORT, BAUD, timeout=1)
+    try:
+        ser = serial.Serial(PORT, BAUD, timeout=1)
     except Exception as e:
         log.error("Got Fatal error - {}".format(e))
         print("Got Fatal error\n");
@@ -66,26 +67,27 @@ def main (qSignal):
         # wait for ctrl-c
         try:
             squit = qSignal.get(block=False, timeout=0.1)
-            except Empty as e:
-                squit = False
+        except Empty as e:
+            squit = False
             if squit == True:
                 log.inf("Exiting")
                 ser.close()
                 exit(0)
             
-            # get data
-            try:
-                data = ser.readline()
-                if len(data) > 0:
-                    log.info(data)
-                except KeyboardInterrupt as e:
-                    q.put(True)
-                    log.info("Ctrl + C pressed")
+        # get data
+        try:
+            data = ser.readline()
+            if len(data) > 0:
+                log.info(data)
+        except KeyboardInterrupt as e:
+            q.put(True)
+            log.info("Ctrl + C pressed")
 
 def handler(signal_received, frame):
     # handle cleanup
     print("SIGINT or CTRL-C detected. Exiting\n")
     q.put(True)
+    exit(0)
 
 if __name__ == "__main__":
     signal(SIGINT, handler)

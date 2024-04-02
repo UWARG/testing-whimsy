@@ -14,7 +14,8 @@ from queue import Queue, Empty
 PORT = "COM14"
 
 # baud rate - change as needed
-BAUD = 460800  # 460800 default baud for gemini
+# BAUD = 460800  # 460800 default baud for gemini
+BAUD = 115200 # nice uart baud rate :D
 
 # filename - change as desired
 LOGFILENAME = "serial_log.txt"

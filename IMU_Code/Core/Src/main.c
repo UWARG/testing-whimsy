@@ -220,9 +220,23 @@ int main(void)
 	  for (size_t i=0; i<3; i++) {
 		  accel[i] = rawMeas[i+1];
 	  }
+
+	  //when holding the icm42688 flat on the table with it oriented
+	  //so that you can read the words and assuming a positive value,
+	  //the following are true:
+	  //accel[0] is to the right
+	  //accel[1] is forwards
+	  //accel[2] is downwards
+
+
 	  for (size_t i=0; i<3; i++) {
 		  gyro[i] = rawMeas[i+4];
 	  }
+
+	  //same orientation
+	  //gyro[0] rotating forward-down
+	  //gyro[1] rotating left-down
+	  //gyro[2] is rotating counter clock wise
 
     /* USER CODE END WHILE */
 

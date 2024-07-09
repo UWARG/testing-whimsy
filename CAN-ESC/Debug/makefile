@@ -61,8 +61,8 @@ all: main-build
 main-build: CAN-ESC.elf secondary-outputs
 
 # Tool invocations
-CAN-ESC.elf CAN-ESC.map: $(OBJS) $(USER_OBJS) C:\Users\ronik\Programming\WARG\CAN-ESC\STM32L552ZETXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "CAN-ESC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\ronik\Programming\WARG\CAN-ESC\STM32L552ZETXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="CAN-ESC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+CAN-ESC.elf CAN-ESC.map: $(OBJS) $(USER_OBJS) C:\Users\ronik\Programming\WARG\efs-kitchen-sinks\CAN-ESC\STM32L552ZETXQ_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "CAN-ESC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\ronik\Programming\WARG\efs-kitchen-sinks\CAN-ESC\STM32L552ZETXQ_FLASH.ld" --specs=nosys.specs -Wl,-Map="CAN-ESC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

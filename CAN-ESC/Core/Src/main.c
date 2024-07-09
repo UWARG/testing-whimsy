@@ -161,7 +161,9 @@ void handle_NotifyState(CanardInstance *ins, CanardRxTransfer *transfer) {
 		return;
 	}
 
-	printf("Vehicle State: %llu ", notifyState.vehicle_state);
+	uint32_t nl = notifyState.vehicle_state & 0xFFFFFFFF;  // ignoring the last 32 bits for printing since the highest vehicle_state value right now is 23 even though they're allowed to be up to 64bit unsigned integer
+
+	printf("Vehicle State: %lu ", nl);
 
 	if (notifyState.aux_data.len > 0) {
 		printf("Aux Data: 0x");
@@ -189,7 +191,7 @@ void handle_RawCommand(CanardInstance *ins, CanardRxTransfer *transfer)
         return;
     }
     // convert throttle to -1.0 to 1.0 range
-    printf("Throttle: %f \n", rawCommand.cmd.data[ESC_INDEX]/8192.0);
+//    printf("Throttle: %f \n", rawCommand.cmd.data[ESC_INDEX]/8192.0);
 }
 
 /*
@@ -327,7 +329,7 @@ bool shouldAcceptTransfer(const CanardInstance *ins,
 
 void onTransferReceived(CanardInstance *ins, CanardRxTransfer *transfer) {
 	// switch on data type ID to pass to the right handler function
-	printf("Transfer type: %du, Transfer ID: %du \n", transfer->transfer_type, transfer->data_type_id);
+//	printf("Transfer type: %du, Transfer ID: %du \n", transfer->transfer_type, transfer->data_type_id);
 //	printf("0x");
 //		for (int i = 0; i < transfer->payload_len; i++) {
 //			printf("%02x", transfer->payload_head[i]);
@@ -374,6 +376,8 @@ void processCanardTxQueue(FDCAN_HandleTypeDef *hfdcan) {
 
 		if (tx_res < 0) {
 			printf("Transmit error %d\n", tx_res);
+		} else if (tx_res > 0) {
+			printf("Successfully transmitted message\n");
 		}
 
 		// Pop canardTxQueue either way

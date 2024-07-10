@@ -12,8 +12,16 @@ To add handling for receiving a new message ID:
 2. Add to onTransferReceived
 3. Write the relevant handle_ function (Check existing function implementations for how to do this)
 
-To transmit a new message:
+To transmit a broadcast new message:
 1. Write the send_ function (Check existing functoin implementations for how to do this)
 2. Call that function at a frequency within the main loop
+
+To respond to a message:
+1. Follow the steps for handling a message receive
+2. Then call canardRequestOrRespond at the end of the handler similar to handle_GetNodeInfo implementation
+
+To transmit a request message:
+1. Follow the steps for transmitting a broadcast message.
+2. Use canardRequestOrRespond() with canardRequest selected instead of canardBroadcast()
 
 Also relevant: https://dronecan.github.io/Specification/7._List_of_standard_data_types/

@@ -1,0 +1,3 @@
+../Core/Src/DShot.c:10:6:dshotInit	5
+../Core/Src/DShot.c:42:6:dshotWrite	1
+../Core/Src/DShot.c:51:6:dshotUpdateDMABuffer	4

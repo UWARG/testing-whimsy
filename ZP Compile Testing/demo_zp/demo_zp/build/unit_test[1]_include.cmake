@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/build/unit_test[1]_tests.cmake")
+  include("C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/build/unit_test[1]_tests.cmake")
+else()
+  add_test(unit_test_NOT_BUILT unit_test_NOT_BUILT)
+endif()

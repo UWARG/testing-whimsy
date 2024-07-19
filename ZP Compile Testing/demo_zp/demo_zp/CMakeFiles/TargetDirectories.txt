@@ -1,0 +1,7 @@
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/CMakeFiles/mylib.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/CMakeFiles/edit_cache.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/CMakeFiles/rebuild_cache.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/CMakeFiles/list_install_components.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/CMakeFiles/install.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/CMakeFiles/install/local.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/CMakeFiles/install/strip.dir

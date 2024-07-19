@@ -1,0 +1,12 @@
+../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_ll_bus.h:433:22:void LL_AHB2_GRP1_EnableClock(uint32_t)	1
+../Drivers/STM32L5xx_HAL_Driver/Inc/stm32l5xx_ll_bus.h:914:22:void LL_APB1_GRP2_EnableClock(uint32_t)	1
+../Core/Src/main.cpp:79:5:int main()	1
+../Core/Src/main.cpp:132:6:void SystemClock_Config()	4
+../Core/Src/main.cpp:193:13:void MX_ADC1_Init()	4
+../Core/Src/main.cpp:260:13:void MX_ICACHE_Init()	3
+../Core/Src/main.cpp:292:13:void MX_LPUART1_UART_Init()	5
+../Core/Src/main.cpp:340:13:void MX_RTC_Init()	3
+../Core/Src/main.cpp:387:13:void MX_UCPD1_Init()	1
+../Core/Src/main.cpp:429:13:void MX_USB_PCD_Init()	2
+../Core/Src/main.cpp:462:13:void MX_GPIO_Init()	1
+../Core/Src/main.cpp:523:6:void Error_Handler()	1

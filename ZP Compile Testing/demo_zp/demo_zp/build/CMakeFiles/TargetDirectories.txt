@@ -1,0 +1,4 @@
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/build/CMakeFiles/unit_test.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/build/CMakeFiles/test.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/build/CMakeFiles/edit_cache.dir
+C:/Users/ronik/Programming/WARG/ZP Compile Testing/demo_zp/demo_zp/build/CMakeFiles/rebuild_cache.dir

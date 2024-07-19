@@ -26,9 +26,10 @@ typedef struct DShotConfig {
 } DShotConfig_t;
 
 void dshotInit(DShotConfig_t dshotConfig);
+uint16_t dshotGetThrottleBits(float throttlePercentage, uint8_t telemetry);
 void dshotWrite(DShotConfig_t dshotConfig, float throttlePercentage, uint8_t telemetry);
 
 // Util methods
-void dshotUpdateDMABuffer(uint32_t *buffer, float throttlePercentage, uint8_t telemetry);
+void dshotUpdateDMABuffer(uint32_t *buffer, uint16_t frame);
 
 #endif /* INC_DSHOT_H_ */

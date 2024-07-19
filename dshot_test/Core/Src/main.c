@@ -127,16 +127,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  dshotWrite(dshotConfig, 100.0f, 0);
-	  HAL_Delay(500);
-	  dshotWrite(dshotConfig, 75.0f, 0);
-	  HAL_Delay(500);
-	  dshotWrite(dshotConfig, 50.0f, 0);
-	  HAL_Delay(500);
-	  dshotWrite(dshotConfig, 25.0f, 0);
-	  HAL_Delay(500);
-	  dshotWrite(dshotConfig, 0.0f, 0);
-	  HAL_Delay(500);
+	  for (float throttle = 0.0f; throttle <= 99.0f; throttle += 10.0f) {
+		  dshotWrite(dshotConfig, throttle, 0);
+		  HAL_Delay(1000);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

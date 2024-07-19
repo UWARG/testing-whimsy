@@ -35,20 +35,38 @@ void dshotInit(DShotConfig_t dshotConfig) {
 	// DMA should be started in circular mode
 	HAL_DMA_Start(dmaHandle, dmaSrcAddr, dmaDestAddr, DSHOT_DMA_BUFFER_LEN);
 
-	// Write initial throttle of 0%
-	dshotWrite(dshotConfig, 33.0f, 0);
+	dshotWrite(dshotConfig, 0.0f, 0);
+	HAL_Delay(1000);
+}
+
+uint16_t dshotGetThrottleBits(float throttlePercentage, uint8_t telemetry) {
+	uint16_t frame = 0;
+
+	// Set throttle bits
+	frame = (uint16_t)(DSHOT_MAX_THROTTLE * throttlePercentage / 100) + DSHOT_RESERVED_VALUES;
+
+	// Set telemetry bit
+	frame = (frame << 1 ) | (telemetry ? 1 : 0);
+
+	// Calculating checksum... splitting first 12 bits into 3 nibbles and XORing
+	uint16_t checksum = ((frame ^ (frame >> 4) ^ (frame >> 8))) & 0x000F;
+
+	// Append checkSum to the frame
+	frame = (frame << 4) | checksum;
+
+	return frame;
 }
 
 void dshotWrite(DShotConfig_t dshotConfig, float throttlePercentage, uint8_t telemetry) {
 	// Disable timer DMA to avoid DMA transfers while the DMA buffer is being updated
 	__HAL_TIM_DISABLE_DMA(dshotConfig.timer, dshotConfig.timDMASource);
 
-	dshotUpdateDMABuffer(dshotConfig.dmaBuffer, throttlePercentage, telemetry);
+	dshotUpdateDMABuffer(dshotConfig.dmaBuffer, dshotGetThrottleBits(throttlePercentage, telemetry));
 
 	__HAL_TIM_ENABLE_DMA(dshotConfig.timer, dshotConfig.timDMASource);
 }
 
-void dshotUpdateDMABuffer(uint32_t *buffer, float throttlePercentage, uint8_t telemetry) {
+void dshotUpdateDMABuffer(uint32_t *buffer, uint16_t frame) {
 	  /* DSHOT data frame (16 bits total):
 	   *
 	   *           b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15
@@ -57,20 +75,6 @@ void dshotUpdateDMABuffer(uint32_t *buffer, float throttlePercentage, uint8_t te
 	   *                                              |
 	   *                                           Telemetry
 	   */
-
-	  uint16_t frame = 0;
-
-	  // Set throttle bits
-	  frame = (uint16_t)(DSHOT_MAX_THROTTLE * throttlePercentage / 100) + DSHOT_RESERVED_VALUES;
-
-	  // Calculating checksum... splitting first 12 bits into 3 nibbles and XORing
-	  uint16_t checksum = (~(frame ^ (frame >> 4) ^ (frame >> 8))) & 0x000F;
-
-	  // Set telemetry bit
-	  frame = (frame << 1 ) | (telemetry ? 1 : 0);
-
-	  // Set checksum bits
-	  frame = (frame << 4) | checksum;  // adding the checksum to the frame
 
 	  // Convert frame bits into PWM duty cycles in DMA buffer
 	  for (uint8_t i = 0; i < DSHOT_DATA_FRAME_LEN; ++i) {

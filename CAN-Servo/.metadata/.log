@@ -1,0 +1,38 @@
+!SESSION 2024-07-18 20:23:25.163 -----------------------------------------------
+eclipse.buildId=Version 1.16.0
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_CA
+Framework arguments:  C:\Users\tharu\WARG\CAN-Servo\CAN-Servo\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\tharu\WARG\CAN-Servo\CAN-Servo\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-07-18 20:24:29.979
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-07-18 20:24:29.995
+!MESSAGE Log4j2 initialized with config file C:\Users\tharu\WARG\CAN-Servo\CAN-Servo\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-07-18 20:24:37.695
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.jobs 2 2 2024-07-18 20:25:13.129
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.ui.internal.Workbench$39
+!SESSION 2024-07-18 20:25:28.976 -----------------------------------------------
+eclipse.buildId=Version 1.16.0
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_CA
+Framework arguments:  C:\Users\tharu\WARG\CAN-Servo\CAN-Servo\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\tharu\WARG\CAN-Servo\CAN-Servo\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-07-18 20:25:36.396
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-07-18 20:25:36.397
+!MESSAGE Log4j2 initialized with config file C:\Users\tharu\WARG\CAN-Servo\CAN-Servo\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-07-18 20:25:39.472
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.jobs 2 2 2024-07-18 20:25:53.130
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.ui.internal.Workbench$39

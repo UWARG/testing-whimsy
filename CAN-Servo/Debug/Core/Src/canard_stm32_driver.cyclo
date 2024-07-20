@@ -1,0 +1,2 @@
+../Core/Src/canard_stm32_driver.c:22:9:canardSTM32Receive	5
+../Core/Src/canard_stm32_driver.c:64:9:canardSTM32Transmit	6
